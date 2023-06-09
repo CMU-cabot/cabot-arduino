@@ -15,7 +15,9 @@ jobs:
         with:
           sketch-paths: |
             - .
-          cli-compile-flags: "--build-property build.extra_flags=-DGT"
+          cli-compile-flags: |
+            - --build-property
+            - build.extra_flags=-DGT
           fqbn: "arduino:avr:mega:cpu=atmega2560"
           libraries: |
             - name: Rosserial Arduino Library
