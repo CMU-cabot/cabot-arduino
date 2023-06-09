@@ -30,15 +30,16 @@
 #include <analogWrite.h>
 #endif
 
-class VibratorController: public SensorReader {
+class VibratorController : public SensorReader
+{
   int vib1_pin_;
   int vib2_pin_;
   int vib3_pin_;
   int vib4_pin_;
-  ros::Subscriber < std_msgs::UInt8 > vib1_sub_;
-  ros::Subscriber < std_msgs::UInt8 > vib2_sub_;
-  ros::Subscriber < std_msgs::UInt8 > vib3_sub_;
-  ros::Subscriber < std_msgs::UInt8 > vib4_sub_;
+  ros::Subscriber<std_msgs::UInt8> vib1_sub_;
+  ros::Subscriber<std_msgs::UInt8> vib2_sub_;
+  ros::Subscriber<std_msgs::UInt8> vib3_sub_;
+  ros::Subscriber<std_msgs::UInt8> vib4_sub_;
 
 public:
   VibratorController(ros::NodeHandle & nh, int vib1_pin, int vib2_pin, int vib3_pin, int vib4_pin);

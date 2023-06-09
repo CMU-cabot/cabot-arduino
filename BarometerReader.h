@@ -30,7 +30,8 @@
 #include <sensor_msgs/Temperature.h>
 #include "SensorReader.h"
 
-class BarometerReader: public SensorReader {
+class BarometerReader : public SensorReader
+{
   Adafruit_BMP280 bmp_;
   sensor_msgs::FluidPressure fp_msg_;
   sensor_msgs::Temperature tmp_msg_;

@@ -28,7 +28,8 @@
 #include <std_msgs/Int8.h>
 #include "SensorReader.h"
 
-class ButtonsReader: public SensorReader {
+class ButtonsReader : public SensorReader
+{
   int b1_pin_;
   int b2_pin_;
   int b3_pin_;

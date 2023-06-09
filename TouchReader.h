@@ -29,7 +29,8 @@
 #include <std_msgs/Float32.h>
 #include "SensorReader.h"
 
-class TouchReader: public SensorReader {
+class TouchReader : public SensorReader
+{
   Adafruit_MPR121 cap_;
   int16_t touched_;
   ros::Publisher touch_pub_;

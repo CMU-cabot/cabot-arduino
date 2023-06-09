@@ -28,14 +28,15 @@
 #include <analogWrite.h>
 #endif
 
-class Heartbeat {
+class Heartbeat
+{
   int led_pin_;
   int delay_;
   int status_;
 
 public:
   Heartbeat(int led_pin, int delay)
-    : led_pin_(led_pin),
+  : led_pin_(led_pin),
     delay_(delay),
     status_(0)
   {

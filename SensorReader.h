@@ -26,14 +26,15 @@
 #include <ros.h>
 #include <Arduino.h>
 
-class SensorReader {
+class SensorReader
+{
 protected:
   ros::NodeHandle & nh_;
   bool initialized_;
 
 public:
   explicit SensorReader(ros::NodeHandle & nh)
-    : nh_(nh),
+  : nh_(nh),
     initialized_(false)
   {
   }
