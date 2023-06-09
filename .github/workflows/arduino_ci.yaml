@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: arduino/compile-sketches@v1
         with:
-          sketch-paths:
+          sketch-paths: |
             - .
           fqbn: "arduino:avr:mega:cpu=atmega2560"
           libraries: |
