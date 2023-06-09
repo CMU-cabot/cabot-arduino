@@ -2,8 +2,6 @@
 name: Arduino_CI
 
 on:
-  pull_request:
-    branches: [ master ]
   push:
     branches: [ master ]
 
@@ -13,4 +11,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: Arduino-CI/action@stable-1.x
+      - uses: arduino/compile-sketches@v1
+        with:
+          fqbn: "arduino:avr:mega:cpu=atmega2560"
+          libraries:
+            - name: Rosserial Arduino Library
+              version: 0.7.9
+            - name: Adafruit BNO055
+            - name: Adafruit BMP280 Library
+            - name: Adafruit MPR121
+            - name: arduino-timer
