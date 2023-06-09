@@ -56,7 +56,7 @@ void TouchReader::set_mode(uint8_t touch_baseline) {
   cap_.writeRegister(MPR121_BASELINE_0, touch_baseline >> 2);
   // use only pin 0
   cap_.writeRegister(MPR121_ECR, 0b01000001);
-  
+
   nh_.loginfo("Touch ready");
 }
 
@@ -67,8 +67,7 @@ void TouchReader::update() {
   int touched = cap_.touched();
   touch_msg_.data = touched;
   touch_pub_.publish( &touch_msg_ );
-  
+
   raw_msg_.data = cap_.filteredData(0);
   raw_pub_.publish( &raw_msg_ );
-  
 }

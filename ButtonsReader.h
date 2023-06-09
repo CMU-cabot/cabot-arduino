@@ -20,8 +20,8 @@
  * THE SOFTWARE.
  *******************************************************************************/
 
-#ifndef ARDUINO_NODE_BUTTONS_READER_H
-#define ARDUINO_NODE_BUTTONS_READER_H
+#ifndef BUTTONSREADER_H_
+#define BUTTONSREADER_H_
 
 #include <Wire.h>
 #include <std_msgs/Bool.h>
@@ -42,4 +42,4 @@ public:
   void update();
 };
 
-#endif //ARDUINO_NODE_BUTTONS_READER_H
+#endif  // BUTTONSREADER_H_

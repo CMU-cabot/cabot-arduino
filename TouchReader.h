@@ -20,8 +20,8 @@
  * THE SOFTWARE.
  *******************************************************************************/
 
-#ifndef ARDUINO_NODE_TOUCH_READER_H
-#define ARDUINO_NODE_TOUCH_READER_H
+#ifndef TOUCHREADER_H_
+#define TOUCHREADER_H_
 
 #include <Wire.h>
 #include <Adafruit_MPR121.h>
@@ -34,11 +34,11 @@ class TouchReader: public SensorReader {
   int16_t touched_;
   ros::Publisher touch_pub_;
   ros::Publisher raw_pub_;
-  std_msgs::Int16 touch_msg_; //each of 12 channels are represented as 1 bit in message
+  std_msgs::Int16 touch_msg_;  // each of 12 channels are represented as 1 bit in message
   std_msgs::Int16 raw_msg_;
 
 public:
-  TouchReader(ros::NodeHandle &nh);
+  explicit TouchReader(ros::NodeHandle &nh);
   void init();
   void init(uint8_t touch_baseline, uint8_t touch_threshold, uint8_t release_threshold);
   void update();
@@ -46,4 +46,4 @@ private:
   void set_mode(uint8_t touch_baseline);
 };
 
-#endif //ARDUINO_NODE_TOUCH_READER_H
+#endif  // TOUCHREADER_H_

@@ -20,8 +20,8 @@
  * THE SOFTWARE.
  *******************************************************************************/
 
-#ifndef ARDUINO_NODE_VIBRATOR_CONTROLLER_H
-#define ARDUINO_NODE_VIBRATOR_CONTROLLER_H
+#ifndef VIBRATORCONTROLLER_H_
+#define VIBRATORCONTROLLER_H_
 
 #include <Wire.h>
 #include <std_msgs/UInt8.h>
@@ -45,4 +45,4 @@ public:
   void update();
 };
 
-#endif //ARDUINO_NODE_VIBRATOR_CONTROLLER_H
+#endif  // VIBRATORCONTROLLER_H_

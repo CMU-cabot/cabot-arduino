@@ -20,8 +20,8 @@
  * THE SOFTWARE.
  *******************************************************************************/
 
-#ifndef ARDUINO_NODE_BAROMETER_H
-#define ARDUINO_NODE_BAROMETER_H
+#ifndef BAROMETERREADER_H_
+#define BAROMETERREADER_H_
 
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
@@ -38,9 +38,9 @@ class BarometerReader : public SensorReader{
   ros::Publisher tmp_pub_;
 
 public:
-  BarometerReader(ros::NodeHandle &nh);
+  explicit BarometerReader(ros::NodeHandle &nh);
   void init();
   void update();
 };
 
-#endif //ARDUINO_NODE_BAROMETER_H
+#endif  // BAROMETERREADER_H_

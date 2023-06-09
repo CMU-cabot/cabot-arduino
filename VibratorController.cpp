@@ -25,8 +25,8 @@
 // keep the instance as static for callback
 VibratorController *instance;
 
-VibratorController::VibratorController(ros::NodeHandle &nh,
-				       int vib1_pin, int vib2_pin, int vib3_pin, int vib4_pin):
+VibratorController::VibratorController(ros::NodeHandle &nh, int vib1_pin, int vib2_pin, int vib3_pin, int vib4_pin)
+    :
   SensorReader(nh),
   vib1_pin_(vib1_pin),
   vib2_pin_(vib2_pin),
@@ -44,18 +44,18 @@ VibratorController::VibratorController(ros::NodeHandle &nh,
   nh.subscribe(vib4_sub_);
 }
 
-void VibratorController::init(){
+void VibratorController::init() {
   pinMode(vib1_pin_, OUTPUT);
-  analogWrite(vib1_pin_,0);
-  
+  analogWrite(vib1_pin_, 0);
+
   pinMode(vib2_pin_, OUTPUT);
-  analogWrite(vib2_pin_,0);
-  
+  analogWrite(vib2_pin_, 0);
+
   pinMode(vib3_pin_, OUTPUT);
-  analogWrite(vib3_pin_,0);
-  
+  analogWrite(vib3_pin_, 0);
+
   pinMode(vib4_pin_, OUTPUT);
-  analogWrite(vib4_pin_,0);
+  analogWrite(vib4_pin_, 0);
 }
 
 void VibratorController::update() {

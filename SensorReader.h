@@ -20,8 +20,8 @@
  * THE SOFTWARE.
  *******************************************************************************/
 
-#ifndef ARDUINO_NODE_SENSORREADER_H
-#define ARDUINO_NODE_SENSORREADER_H
+#ifndef SENSORREADER_H_
+#define SENSORREADER_H_
 
 #include <ros.h>
 #include <Arduino.h>
@@ -30,14 +30,14 @@ class SensorReader {
 protected:
   ros::NodeHandle &nh_;
   bool initialized_;
-  
+
 public:
 SensorReader(ros::NodeHandle &nh):
   nh_(nh),
   initialized_(false)
   {}
-  virtual void init()=0;
-  virtual void update()=0;
+  virtual void init() = 0;
+  virtual void update() = 0;
 };
 
-#endif //ARDUINO_NODE_SENSORREADER_H
+#endif  // SENSORREADER_H_

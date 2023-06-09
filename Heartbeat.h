@@ -20,8 +20,8 @@
  * THE SOFTWARE.
  *******************************************************************************/
 
-#ifndef ARDUINO_NODE_HEARTBEAT_H
-#define ARDUINO_NODE_HEARTBEAT_H
+#ifndef HEARTBEAT_H_
+#define HEARTBEAT_H_
 
 #include <Arduino.h>
 #ifdef ESP32
@@ -51,4 +51,4 @@ Heartbeat(int led_pin, int delay):
   }
 };
 
-#endif // ARDUINO_NODE_HEARTBEAT_H
+#endif  // HEARTBEAT_H_

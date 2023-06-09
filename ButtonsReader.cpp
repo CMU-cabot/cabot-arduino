@@ -56,14 +56,14 @@ void ButtonsReader::update() {
     delayMicroseconds(10);
     reading_1 = reading_1 && !digitalRead(b1_pin_);
     reading_2 = reading_2 && !digitalRead(b2_pin_);
-    reading_3 = reading_3 && !digitalRead(b3_pin_);  
-    reading_4 = reading_4 && !digitalRead(b4_pin_); 
+    reading_3 = reading_3 && !digitalRead(b3_pin_);
+    reading_4 = reading_4 && !digitalRead(b4_pin_);
     if (b5_pin_ > 0) {
       reading_5 = reading_5 && !digitalRead(b5_pin_);
     }
   }
-  
+
   b_msg_.data = reading_1 | reading_2<<1 | reading_3<<2 | reading_4<<3 | reading_5<<4;
-        
+
   b_pub_.publish(&b_msg_);
 }

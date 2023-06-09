@@ -38,12 +38,11 @@ void BarometerReader::init(){
     return;
   }
   initialized_ = true;
-  
   bmp_.setSampling(Adafruit_BMP280::MODE_NORMAL,     /* Operating Mode. */
-		   Adafruit_BMP280::SAMPLING_X2,     /* Temp. oversampling */
-		   Adafruit_BMP280::SAMPLING_X16,    /* Pressure oversampling */
-		   Adafruit_BMP280::FILTER_X16,      /* Filtering. */
-		   Adafruit_BMP280::STANDBY_MS_500); /* Standby time. */
+                   Adafruit_BMP280::SAMPLING_X2,     /* Temp. oversampling */
+                   Adafruit_BMP280::SAMPLING_X16,    /* Pressure oversampling */
+                   Adafruit_BMP280::FILTER_X16,      /* Filtering. */
+                   Adafruit_BMP280::STANDBY_MS_500); /* Standby time. */
 }
 
 void BarometerReader::update(){
@@ -55,7 +54,7 @@ void BarometerReader::update(){
   fp_msg_.header.stamp = nh_.now();
   fp_msg_.header.frame_id = "bmp_frame";
   fp_pub_.publish( &fp_msg_ );
-  
+
   tmp_msg_.temperature = bmp_.readTemperature();
   tmp_msg_.variance = 0;
   tmp_msg_.header.stamp = nh_.now();

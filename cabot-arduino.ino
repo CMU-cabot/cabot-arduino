@@ -41,29 +41,29 @@ Timer<10> timer;
 #define HEARTBEAT_DELAY (20)
 
 #ifdef GT
-#define BTN1_PIN (2) // up
-#define BTN2_PIN (3) // down
-#define BTN3_PIN (4) // left
-#define BTN4_PIN (5) // right
-#define BTN5_PIN (0) // decision //not using
+#define BTN1_PIN (2)   // up
+#define BTN2_PIN (3)   // down
+#define BTN3_PIN (4)   // left
+#define BTN4_PIN (5)   // right
+#define BTN5_PIN (0)   // decision //not using
 
-#define VIB1_PIN (11)  //front
-#define VIB2_PIN (6)   //back //not using
-#define VIB3_PIN (10)  //left
-#define VIB4_PIN (9)   //right
+#define VIB1_PIN (11)  // front
+#define VIB2_PIN (6)   // back //not using
+#define VIB3_PIN (10)  // left
+#define VIB4_PIN (9)   // right
 #endif
 
 #ifdef GTM
-#define BTN1_PIN (2) // up
-#define BTN2_PIN (4) // down
-#define BTN3_PIN (3) // left
-#define BTN4_PIN (5) // right
-#define BTN5_PIN (6) // decision
+#define BTN1_PIN (2)   // up
+#define BTN2_PIN (4)   // down
+#define BTN3_PIN (3)   // left
+#define BTN4_PIN (5)   // right
+#define BTN5_PIN (6)   // decision
 
-#define VIB1_PIN (10)  //front
-#define VIB2_PIN (12)   //back //not using
-#define VIB3_PIN (9)  //left
-#define VIB4_PIN (11)   //right
+#define VIB1_PIN (10)  // front
+#define VIB2_PIN (12)  // back //not using
+#define VIB3_PIN (9)   // left
+#define VIB4_PIN (11)  // right
 #endif
 
 
@@ -151,7 +151,8 @@ void setup()
     release_threshold = touch_params[2];
   }
   char default_values[128];
-  sprintf(default_values, "Using [%d, %d, %d] for touch_params", touch_baseline, touch_threshold, release_threshold);
+  snprintf(default_values, sizeof(default_values), "Using [%d, %d, %d] for touch_params",
+           touch_baseline, touch_threshold, release_threshold);
   nh.loginfo(default_values);
 
   // initialize
@@ -167,7 +168,7 @@ void setup()
   vibratorController.init();
   nh.loginfo("setting up heartbeat");
   heartbeat.init();
-  
+
   // wait sensors ready
   delay(100);
 
@@ -185,7 +186,7 @@ void setup()
   timer.every(10, [](){
       imuReader.update();
     });
-  
+
   nh.loginfo("Arduino is ready");
 }
 
