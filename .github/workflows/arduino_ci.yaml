@@ -3,7 +3,7 @@ name: Arduino_CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, ros2 ]
 
 jobs:
   arduino_ci:
