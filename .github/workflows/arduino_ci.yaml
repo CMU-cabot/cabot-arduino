@@ -41,3 +41,14 @@ jobs:
       - name: Run cpplint
         run: |
           cpplint --recursive .
+
+  uncrustify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup uncrustify
+        run: |
+          sudo apt-get install -y uncrustify
+      - uses: actions/checkout@v3
+      - name: Run uncrustify
+        run: |
+          ls *.ino *.h *.cpp | uncrustify -c code_style.cfg --check -F -
