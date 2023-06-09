@@ -23,19 +23,31 @@
 #include "VibratorController.h"
 
 // keep the instance as static for callback
-VibratorController *instance;
+VibratorController * instance;
 
-VibratorController::VibratorController(ros::NodeHandle &nh, int vib1_pin, int vib2_pin, int vib3_pin, int vib4_pin)
-    :
-  SensorReader(nh),
+VibratorController::VibratorController(
+  ros::NodeHandle & nh, int vib1_pin, int vib2_pin,
+  int vib3_pin, int vib4_pin)
+: SensorReader(nh),
   vib1_pin_(vib1_pin),
   vib2_pin_(vib2_pin),
   vib3_pin_(vib3_pin),
   vib4_pin_(vib4_pin),
-  vib1_sub_("vibrator1", [](const std_msgs::UInt8& msg) {analogWrite(instance->vib1_pin_, msg.data);}),
-  vib2_sub_("vibrator2", [](const std_msgs::UInt8& msg) {analogWrite(instance->vib2_pin_, msg.data);}),
-  vib3_sub_("vibrator3", [](const std_msgs::UInt8& msg) {analogWrite(instance->vib3_pin_, msg.data);}),
-  vib4_sub_("vibrator4", [](const std_msgs::UInt8& msg) {analogWrite(instance->vib4_pin_, msg.data);})
+  vib1_sub_("vibrator1", [](const std_msgs::UInt8 & msg) {
+      analogWrite(instance->vib1_pin_, msg.data);
+    }),
+  vib2_sub_(
+    "vibrator2", [](const std_msgs::UInt8 & msg) {
+      analogWrite(instance->vib2_pin_, msg.data);
+    }),
+  vib3_sub_(
+    "vibrator3", [](const std_msgs::UInt8 & msg) {
+      analogWrite(instance->vib3_pin_, msg.data);
+    }),
+  vib4_sub_(
+    "vibrator4", [](const std_msgs::UInt8 & msg) {
+      analogWrite(instance->vib4_pin_, msg.data);
+    })
 {
   instance = this;
   nh.subscribe(vib1_sub_);
@@ -44,7 +56,8 @@ VibratorController::VibratorController(ros::NodeHandle &nh, int vib1_pin, int vi
   nh.subscribe(vib4_sub_);
 }
 
-void VibratorController::init() {
+void VibratorController::init()
+{
   pinMode(vib1_pin_, OUTPUT);
   analogWrite(vib1_pin_, 0);
 
@@ -58,5 +71,6 @@ void VibratorController::init() {
   analogWrite(vib4_pin_, 0);
 }
 
-void VibratorController::update() {
+void VibratorController::update()
+{
 }

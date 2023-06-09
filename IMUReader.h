@@ -37,11 +37,12 @@ class IMUReader: public SensorReader {
   ros::Publisher imu_pub_;
   ros::Publisher calibration_pub_;
   int in_calibration_;
+
 public:
-  explicit IMUReader(ros::NodeHandle &nh);
+  explicit IMUReader(ros::NodeHandle & nh);
   void calibration();
   void init();
-  void init(uint8_t *offsets);
+  void init(uint8_t * offsets);
   void update();
   void update_calibration();
 };

@@ -38,10 +38,11 @@ class TouchReader: public SensorReader {
   std_msgs::Int16 raw_msg_;
 
 public:
-  explicit TouchReader(ros::NodeHandle &nh);
+  explicit TouchReader(ros::NodeHandle & nh);
   void init();
   void init(uint8_t touch_baseline, uint8_t touch_threshold, uint8_t release_threshold);
   void update();
+
 private:
   void set_mode(uint8_t touch_baseline);
 };

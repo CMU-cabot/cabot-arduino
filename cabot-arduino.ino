@@ -33,7 +33,7 @@
 #include "VibratorController.h"
 
 ros::NodeHandle nh;
-Timer<10> timer;
+Timer < 10 > timer;
 
 // configurations
 #define BAUDRATE (115200)
@@ -67,7 +67,6 @@ Timer<10> timer;
 #endif
 
 
-
 #define TOUCH_BASELINE (128)
 #define TOUCH_THRESHOLD_DEFAULT (64)
 #define RELEASE_THRESHOLD_DEFAULT (24)
@@ -92,14 +91,15 @@ void setup()
 
   // connect to rosserial
   nh.initNode();
-  while(!nh.connected()) {nh.spinOnce();}
+  while (!nh.connected()) {nh.spinOnce();}
   nh.loginfo("Connected");
 
   int run_imu_calibration = 0;
   nh.getParam("~run_imu_calibration", &run_imu_calibration, 1, TIMEOUT_DEFAULT);
   if (run_imu_calibration != 0) {
     imuReader.calibration();
-    timer.every(100, [](){
+    timer.every(
+      100, [] () {
       imuReader.update();
       imuReader.update_calibration();
     });
@@ -108,10 +108,10 @@ void setup()
   }
 
   int calibration_params[22];
-  uint8_t *offsets = NULL;
+  uint8_t * offsets = NULL;
   if (nh.getParam("~calibration_params", calibration_params, 22, TIMEOUT_DEFAULT)) {
     offsets = malloc(sizeof(uint8_t) * 22);
-    for(int i = 0; i < 22; i++) {
+    for (int i = 0; i < 22; i++) {
       offsets[i] = calibration_params[i] & 0xFF;
     }
   } else {
@@ -122,7 +122,8 @@ void setup()
     nh.logwarn("System, Gyro, Accel, Magnet, 0 (not configured) <-> 3 (configured)");
     nh.logwarn("Specify like calibration_params:=[0, 0, 0, 0 ...]");
     nh.logwarn("Visit the following link to check how to calibrate sensoe");
-    nh.logwarn("https://learn.adafruit.com/adafruit-bno055-absolute-orientation-sensor/device-calibration");
+    nh.logwarn(
+      "https://learn.adafruit.com/adafruit-bno055-absolute-orientation-sensor/device-calibration");
   }
 
   int touch_params[3];
@@ -151,8 +152,9 @@ void setup()
     release_threshold = touch_params[2];
   }
   char default_values[128];
-  snprintf(default_values, sizeof(default_values), "Using [%d, %d, %d] for touch_params",
-           touch_baseline, touch_threshold, release_threshold);
+  snprintf(
+    default_values, sizeof(default_values), "Using [%d, %d, %d] for touch_params",
+    touch_baseline, touch_threshold, release_threshold);
   nh.loginfo(default_values);
 
   // initialize
@@ -173,25 +175,28 @@ void setup()
   delay(100);
 
   // set timers
-  timer.every(500, [](){
-      bmpReader.update();
-    });
+  timer.every(
+    500, [] () {
+    bmpReader.update();
+  });
 
-  timer.every(20, [](){
-      heartbeat.update();
-      buttonsReader.update();
-      touchReader.update();
-    });
+  timer.every(
+    20, [] () {
+    heartbeat.update();
+    buttonsReader.update();
+    touchReader.update();
+  });
 
-  timer.every(10, [](){
-      imuReader.update();
-    });
+  timer.every(
+    10, [] () {
+    imuReader.update();
+  });
 
   nh.loginfo("Arduino is ready");
 }
 
 void loop()
 {
-  timer.tick<void>();
+  timer.tick < void > ();
   nh.spinOnce();
 }

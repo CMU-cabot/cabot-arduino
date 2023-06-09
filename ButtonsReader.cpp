@@ -22,8 +22,10 @@
 
 #include "ButtonsReader.h"
 
-ButtonsReader::ButtonsReader(ros::NodeHandle &nh, int b1_pin, int b2_pin, int b3_pin, int b4_pin, int b5_pin):
-  SensorReader(nh),
+ButtonsReader::ButtonsReader(
+  ros::NodeHandle & nh, int b1_pin, int b2_pin, int b3_pin, int b4_pin,
+  int b5_pin)
+: SensorReader(nh),
   b1_pin_(b1_pin),
   b2_pin_(b2_pin),
   b3_pin_(b3_pin),
@@ -34,7 +36,8 @@ ButtonsReader::ButtonsReader(ros::NodeHandle &nh, int b1_pin, int b2_pin, int b3
   nh.advertise(b_pub_);
 }
 
-void ButtonsReader::init(){
+void ButtonsReader::init()
+{
   pinMode(b1_pin_, INPUT_PULLUP);
   pinMode(b2_pin_, INPUT_PULLUP);
   pinMode(b3_pin_, INPUT_PULLUP);
@@ -42,7 +45,8 @@ void ButtonsReader::init(){
   pinMode(b5_pin_, INPUT_PULLUP);
 }
 
-void ButtonsReader::update() {
+void ButtonsReader::update()
+{
   int reading_1 = !digitalRead(b1_pin_);
   int reading_2 = !digitalRead(b2_pin_);
   int reading_3 = !digitalRead(b3_pin_);
@@ -52,7 +56,7 @@ void ButtonsReader::update() {
     reading_5 = !digitalRead(b5_pin_);
   }
 
-  for(int i = 0; i < 10; i++) {
+  for (int i = 0; i < 10; i++) {
     delayMicroseconds(10);
     reading_1 = reading_1 && !digitalRead(b1_pin_);
     reading_2 = reading_2 && !digitalRead(b2_pin_);
@@ -63,7 +67,7 @@ void ButtonsReader::update() {
     }
   }
 
-  b_msg_.data = reading_1 | reading_2<<1 | reading_3<<2 | reading_4<<3 | reading_5<<4;
+  b_msg_.data = reading_1 | reading_2 << 1 | reading_3 << 2 | reading_4 << 3 | reading_5 << 4;
 
   b_pub_.publish(&b_msg_);
 }
