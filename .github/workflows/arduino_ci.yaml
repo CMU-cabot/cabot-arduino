@@ -8,7 +8,9 @@ on:
 jobs:
   arduino_ci:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        type: [GT, GTM]
     steps:
       - uses: actions/checkout@v3
       - uses: arduino/compile-sketches@v1
@@ -17,7 +19,7 @@ jobs:
             - .
           cli-compile-flags: |
             - --build-property
-            - build.extra_flags=-DGT
+            - build.extra_flags=-D${{ matrix.type }}
           fqbn: "arduino:avr:mega:cpu=atmega2560"
           libraries: |
             - name: Rosserial Arduino Library
