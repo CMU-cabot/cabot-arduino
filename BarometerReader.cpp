@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020  Carnegie Mellon University
+ * Copyright (c) 2020, 2022  Carnegie Mellon University
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,22 +22,17 @@
 
 #include "BarometerReader.h"
 
-BarometerReader::BarometerReader(ros::NodeHandle & nh)
-: SensorReader(nh),
-  fp_pub_("pressure", &fp_msg_),
-  tmp_pub_("temperature", &tmp_msg_)
-{
-  nh_.advertise(fp_pub_);
-  nh_.advertise(tmp_pub_);
-}
+BarometerReader::BarometerReader(cabot::Handle & ch)
+: SensorReader(ch) {}
 
 void BarometerReader::init()
 {
   if (!bmp_.begin()) {
-    nh_.loginfo("Ooops, no BMP280 detected ... Check your wiring or I2C ADDR!");
+    ch_.loginfo("Ooops, no BMP280 detected ... Check your wiring or I2C ADDR!");
     return;
   }
   initialized_ = true;
+
   bmp_.setSampling(
     Adafruit_BMP280::MODE_NORMAL,                    /* Operating Mode. */
     Adafruit_BMP280::SAMPLING_X2,                    /* Temp. oversampling */
@@ -51,15 +46,7 @@ void BarometerReader::update()
   if (!initialized_) {
     return;
   }
-  fp_msg_.fluid_pressure = bmp_.readPressure();
-  fp_msg_.variance = 0;
-  fp_msg_.header.stamp = nh_.now();
-  fp_msg_.header.frame_id = "bmp_frame";
-  fp_pub_.publish(&fp_msg_);
 
-  tmp_msg_.temperature = bmp_.readTemperature();
-  tmp_msg_.variance = 0;
-  tmp_msg_.header.stamp = nh_.now();
-  tmp_msg_.header.frame_id = "bmp_frame";
-  tmp_pub_.publish(&tmp_msg_);
+  ch_.publish(0x15, bmp_.readPressure());
+  ch_.publish(0x16, bmp_.readTemperature());
 }

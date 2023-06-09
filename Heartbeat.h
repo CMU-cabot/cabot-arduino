@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020  Carnegie Mellon University
+ * Copyright (c) 2020, 2022  Carnegie Mellon University
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,11 +36,7 @@ class Heartbeat
 
 public:
   Heartbeat(int led_pin, int delay)
-  : led_pin_(led_pin),
-    delay_(delay),
-    status_(0)
-  {
-  }
+  : led_pin_(led_pin), delay_(delay), status_(0) {}
 
   void init()
   {

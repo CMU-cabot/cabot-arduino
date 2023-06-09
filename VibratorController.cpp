@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020  Carnegie Mellon University
+ * Copyright (c) 2020, 2022  Carnegie Mellon University
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,34 +26,23 @@
 VibratorController * instance;
 
 VibratorController::VibratorController(
-  ros::NodeHandle & nh, int vib1_pin, int vib2_pin,
-  int vib3_pin, int vib4_pin)
-: SensorReader(nh),
+  cabot::Handle & ch, int vib1_pin,
+  int vib2_pin, int vib3_pin, int vib4_pin)
+: SensorReader(ch),
   vib1_pin_(vib1_pin),
   vib2_pin_(vib2_pin),
   vib3_pin_(vib3_pin),
-  vib4_pin_(vib4_pin),
-  vib1_sub_("vibrator1", [](const std_msgs::UInt8 & msg) {
-      analogWrite(instance->vib1_pin_, msg.data);
-    }),
-  vib2_sub_(
-    "vibrator2", [](const std_msgs::UInt8 & msg) {
-      analogWrite(instance->vib2_pin_, msg.data);
-    }),
-  vib3_sub_(
-    "vibrator3", [](const std_msgs::UInt8 & msg) {
-      analogWrite(instance->vib3_pin_, msg.data);
-    }),
-  vib4_sub_(
-    "vibrator4", [](const std_msgs::UInt8 & msg) {
-      analogWrite(instance->vib4_pin_, msg.data);
-    })
+  vib4_pin_(vib4_pin)
 {
   instance = this;
-  nh.subscribe(vib1_sub_);
-  nh.subscribe(vib2_sub_);
-  nh.subscribe(vib3_sub_);
-  nh.subscribe(vib4_sub_);
+  ch.subscribe(
+    0x20, [](const uint8_t msg) {analogWrite(instance->vib1_pin_, msg);});
+  ch.subscribe(
+    0x21, [](const uint8_t msg) {analogWrite(instance->vib2_pin_, msg);});
+  ch.subscribe(
+    0x22, [](const uint8_t msg) {analogWrite(instance->vib3_pin_, msg);});
+  ch.subscribe(
+    0x23, [](const uint8_t msg) {analogWrite(instance->vib4_pin_, msg);});
 }
 
 void VibratorController::init()
@@ -71,6 +60,4 @@ void VibratorController::init()
   analogWrite(vib4_pin_, 0);
 }
 
-void VibratorController::update()
-{
-}
+void VibratorController::update() {}

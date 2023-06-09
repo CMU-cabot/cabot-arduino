@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020  Carnegie Mellon University
+ * Copyright (c) 2020, 2022  Carnegie Mellon University
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,21 +23,18 @@
 #ifndef SENSORREADER_H_
 #define SENSORREADER_H_
 
-#include <ros.h>
 #include <Arduino.h>
+#include "CaBotHandle.h"
 
 class SensorReader
 {
 protected:
-  ros::NodeHandle & nh_;
+  cabot::Handle & ch_;
   bool initialized_;
 
 public:
-  explicit SensorReader(ros::NodeHandle & nh)
-  : nh_(nh),
-    initialized_(false)
-  {
-  }
+  explicit SensorReader(cabot::Handle & ch)
+  : ch_(ch), initialized_(false) {}
   virtual void init() = 0;
   virtual void update() = 0;
 };

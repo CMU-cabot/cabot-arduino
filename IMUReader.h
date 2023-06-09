@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020  Carnegie Mellon University
+ * Copyright (c) 2020, 2022  Carnegie Mellon University
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,30 +23,23 @@
 #ifndef IMUREADER_H_
 #define IMUREADER_H_
 
-#include <Wire.h>
-#include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
-#include <std_msgs/Float32MultiArray.h>
-#include <std_msgs/UInt8MultiArray.h>
+#include <Adafruit_Sensor.h>
+#include <Wire.h>
 #include "SensorReader.h"
 
 class IMUReader : public SensorReader
 {
   Adafruit_BNO055 imu_;
-  std_msgs::Float32MultiArray imu_msg_;
-  std_msgs::UInt8MultiArray calibration_msg_;
-  ros::Publisher imu_pub_;
-  ros::Publisher calibration_pub_;
   int in_calibration_;
 
 public:
-  explicit IMUReader(ros::NodeHandle & nh);
+  explicit IMUReader(cabot::Handle & ch);
   void calibration();
   void init();
   void init(uint8_t * offsets);
   void update();
   void update_calibration();
 };
-
 
 #endif  // IMUREADER_H_

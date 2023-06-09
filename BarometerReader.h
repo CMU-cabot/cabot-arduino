@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020  Carnegie Mellon University
+ * Copyright (c) 2020, 2022  Carnegie Mellon University
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,23 +23,17 @@
 #ifndef BAROMETERREADER_H_
 #define BAROMETERREADER_H_
 
-#include <Wire.h>
-#include <Adafruit_Sensor.h>
 #include <Adafruit_BMP280.h>
-#include <sensor_msgs/FluidPressure.h>
-#include <sensor_msgs/Temperature.h>
+#include <Adafruit_Sensor.h>
+#include <Wire.h>
 #include "SensorReader.h"
 
 class BarometerReader : public SensorReader
 {
   Adafruit_BMP280 bmp_;
-  sensor_msgs::FluidPressure fp_msg_;
-  sensor_msgs::Temperature tmp_msg_;
-  ros::Publisher fp_pub_;
-  ros::Publisher tmp_pub_;
 
 public:
-  explicit BarometerReader(ros::NodeHandle & nh);
+  explicit BarometerReader(cabot::Handle & ch);
   void init();
   void update();
 };
