@@ -292,7 +292,8 @@ int32_t Handle::timeDiff(Time a, Time b)
 size_t Handle::readCommand(uint8_t * expect, uint8_t ** ptr)
 {
   static int DATA_MAX_SIZE_BYTE = 1;
-  static uint8_t buffer[256];
+  static uint8_t buffer[16];
+  static char buff[48];
 
   if (Serial.available() == 0) {
     return -1;
@@ -343,6 +344,8 @@ size_t Handle::readCommand(uint8_t * expect, uint8_t ** ptr)
     if (size_count == DATA_MAX_SIZE_BYTE) {
       if (size < 0 || sizeof(buffer) < size) {
         state = 0;
+        snprintf(buff, 48, "size is too big cmd=%d, size=%d", cmd, size);
+        logwarn(buff);
         return 0;
       } else if (size == 0) {
         // if size is zero then skip to checksum
@@ -366,6 +369,8 @@ size_t Handle::readCommand(uint8_t * expect, uint8_t ** ptr)
       return size;
     } else {
       // if checksum is not matched, assumes there is no data
+      snprintf(buff, 48, "check sum is not matched");
+      logwarn(buff);
       return 0;
     }
   }
