@@ -125,6 +125,8 @@ void Handle::spinOnce()
     }
   }
   if (0x20 <= cmd && cmd <= 0x23 && count == 1) {
+    // feedback to the host
+    sendCommand(cmd, data, 1);
     // vibration commands
     for (int i = 0; i < 4; i++) {
       if (callbacks[i].cmd == cmd) {

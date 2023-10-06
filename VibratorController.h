@@ -31,10 +31,8 @@
 
 class VibratorController : public SensorReader
 {
-  int vib1_pin_;
-  int vib2_pin_;
-  int vib3_pin_;
-  int vib4_pin_;
+  uint8_t vib_pin[4];
+  uint16_t vibrations[4];
 
 public:
   VibratorController(
