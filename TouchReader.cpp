@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020  Carnegie Mellon University
+ * Copyright (c) 2020, 2022  Carnegie Mellon University
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,29 +22,25 @@
 
 #include "TouchReader.h"
 
-TouchReader::TouchReader(ros::NodeHandle & nh)
-: SensorReader(nh),
-  touch_pub_("touch", &touch_msg_),
-  raw_pub_("touch_raw", &raw_msg_)
-{
-  nh.advertise(touch_pub_);
-  nh.advertise(raw_pub_);
-}
+TouchReader::TouchReader(cabot::Handle & ch)
+: SensorReader(ch) {}
 
 void TouchReader::init()
 {
   if (!cap_.begin(0x5A)) {
-    nh_.loginfo("Ooops, no MPR121 detected ... Check your wiring or I2C ADDR!");
+    ch_.loginfo("Ooops, no MPR121 detected ... Check your wiring or I2C ADDR!");
     return;
   }
   initialized_ = true;
   set_mode(128);
 }
 
-void TouchReader::init(uint8_t touch_baseline, uint8_t touch_threshold, uint8_t release_threshold)
+void TouchReader::init(
+  uint8_t touch_baseline, uint8_t touch_threshold,
+  uint8_t release_threshold)
 {
   if (!cap_.begin(0x5A, &Wire, touch_threshold, release_threshold)) {
-    nh_.loginfo("Ooops, no MPR121 detected ... Check your wiring or I2C ADDR!");
+    ch_.loginfo("Ooops, no MPR121 detected ... Check your wiring or I2C ADDR!");
     return;
   }
   initialized_ = true;
@@ -60,7 +56,7 @@ void TouchReader::set_mode(uint8_t touch_baseline)
   // use only pin 0
   cap_.writeRegister(MPR121_ECR, 0b01000001);
 
-  nh_.loginfo("Touch ready");
+  ch_.loginfo("Touch ready");
 }
 
 void TouchReader::update()
@@ -69,9 +65,9 @@ void TouchReader::update()
     return;
   }
   int touched = cap_.touched();
-  touch_msg_.data = touched;
-  touch_pub_.publish(&touch_msg_);
 
-  raw_msg_.data = cap_.filteredData(0);
-  raw_pub_.publish(&raw_msg_);
+  // touch
+  ch_.publish(0x10, (int16_t)touched);
+  // touch_raw
+  ch_.publish(0x11, (int16_t)cap_.filteredData(0));
 }

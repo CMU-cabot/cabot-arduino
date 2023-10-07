@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020  Carnegie Mellon University
+ * Copyright (c) 2020, 2022  Carnegie Mellon University
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,6 @@
 #define VIBRATORCONTROLLER_H_
 
 #include <Wire.h>
-#include <std_msgs/UInt8.h>
 #include "SensorReader.h"
 #ifdef ESP32
 #include <analogWrite.h>
@@ -32,17 +31,13 @@
 
 class VibratorController : public SensorReader
 {
-  int vib1_pin_;
-  int vib2_pin_;
-  int vib3_pin_;
-  int vib4_pin_;
-  ros::Subscriber<std_msgs::UInt8> vib1_sub_;
-  ros::Subscriber<std_msgs::UInt8> vib2_sub_;
-  ros::Subscriber<std_msgs::UInt8> vib3_sub_;
-  ros::Subscriber<std_msgs::UInt8> vib4_sub_;
+  uint8_t vib_pin[4];
+  uint16_t vibrations[4];
 
 public:
-  VibratorController(ros::NodeHandle & nh, int vib1_pin, int vib2_pin, int vib3_pin, int vib4_pin);
+  VibratorController(
+    cabot::Handle & ch, int vib1_pin, int vib2_pin,
+    int vib3_pin, int vib4_pin);
   void init();
   void update();
 };
