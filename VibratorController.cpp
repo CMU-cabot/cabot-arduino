@@ -28,36 +28,39 @@ VibratorController * instance;
 VibratorController::VibratorController(
   cabot::Handle & ch, int vib1_pin,
   int vib2_pin, int vib3_pin, int vib4_pin)
-: SensorReader(ch),
-  vib1_pin_(vib1_pin),
-  vib2_pin_(vib2_pin),
-  vib3_pin_(vib3_pin),
-  vib4_pin_(vib4_pin)
+: SensorReader(ch)
 {
   instance = this;
-  ch.subscribe(
-    0x20, [](const uint8_t msg) {analogWrite(instance->vib1_pin_, msg);});
-  ch.subscribe(
-    0x21, [](const uint8_t msg) {analogWrite(instance->vib2_pin_, msg);});
-  ch.subscribe(
-    0x22, [](const uint8_t msg) {analogWrite(instance->vib3_pin_, msg);});
-  ch.subscribe(
-    0x23, [](const uint8_t msg) {analogWrite(instance->vib4_pin_, msg);});
+
+  vib_pin[0] = vib1_pin;
+  vib_pin[1] = vib2_pin;
+  vib_pin[2] = vib3_pin;
+  vib_pin[3] = vib4_pin;
+
+  ch.subscribe(0x20, [](const uint8_t msg) { instance->vibrations[0] = msg+1; });
+  ch.subscribe(0x21, [](const uint8_t msg) { instance->vibrations[1] = msg+1; });
+  ch.subscribe(0x22, [](const uint8_t msg) { instance->vibrations[2] = msg+1; });
+  ch.subscribe(0x23, [](const uint8_t msg) { instance->vibrations[3] = msg+1; });
 }
 
 void VibratorController::init()
 {
-  pinMode(vib1_pin_, OUTPUT);
-  analogWrite(vib1_pin_, 0);
-
-  pinMode(vib2_pin_, OUTPUT);
-  analogWrite(vib2_pin_, 0);
-
-  pinMode(vib3_pin_, OUTPUT);
-  analogWrite(vib3_pin_, 0);
-
-  pinMode(vib4_pin_, OUTPUT);
-  analogWrite(vib4_pin_, 0);
+  for(int i = 0; i < 4; i++) {
+    pinMode(vib_pin[i], OUTPUT);
+    analogWrite(vib_pin[i], 0);
+  }
 }
 
-void VibratorController::update() {}
+void VibratorController::update() {
+  for(int i = 0; i < 4; i++) {
+    if (vibrations[i] > 0) {
+      if (vibrations[i] == 1) {
+        analogWrite(vib_pin[i], 0);
+        vibrations[i] = 0;
+      } else {
+        analogWrite(vib_pin[i], 255);
+        vibrations[i]--;
+      }
+    }
+  }
+}
