@@ -7,3 +7,5 @@ RUN arduino-cli lib install "Adafruit BNO055"
 RUN arduino-cli lib install "Adafruit BMP280 Library"
 RUN arduino-cli lib install "Adafruit MPR121"
 RUN arduino-cli lib install "arduino-timer"
+RUN apt update && apt install -y git
+RUN git config --global --add safe.directory /mnt/cabot-arduino

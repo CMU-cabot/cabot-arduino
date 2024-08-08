@@ -54,9 +54,13 @@ if [ -z $target ]; then
 fi
 
 function build() {
+    GIT_HASH=$(git rev-parse HEAD)
+    GIT_DIFF=$(git diff --shortstat | tr ' ' '_' | tr ',' '_')
     echo "building..."
-    echo "arduino-cli compile -b $board --build-property build.extra_flags=-D$mode ."
-    arduino-cli compile -b $board --build-property build.extra_flags=-D$mode .
+
+    com="arduino-cli compile -b $board --build-property build.extra_flags=\"-D$mode -DGIT_HASH=GIT_HASH:$GIT_HASH -DGIT_DIFF=GIT_DIFF:$GIT_DIFF\" ."
+    echo $com
+    eval $com
 
     if [ $? -ne 0 ]; then
 	err "Please check board ($board) or mode ($mode)"
