@@ -14,6 +14,8 @@ jobs:
         type: [GT, GTM]
     steps:
       - uses: actions/checkout@v3
+      - name: Setup
+        run: ./version.sh
       - uses: arduino/compile-sketches@v1
         with:
           sketch-paths: |
