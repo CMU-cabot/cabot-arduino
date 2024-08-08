@@ -54,11 +54,11 @@ if [ -z $target ]; then
 fi
 
 function build() {
-    GIT_HASH=$(git rev-parse HEAD)
-    GIT_DIFF=$(git diff --shortstat | tr ' ' '_' | tr ',' '_')
+    echo "check version..."
+    ./version.sh
     echo "building..."
 
-    com="arduino-cli compile -b $board --build-property build.extra_flags=\"-D$mode -DGIT_HASH=GIT_HASH:$GIT_HASH -DGIT_DIFF=GIT_DIFF:$GIT_DIFF\" ."
+    com="arduino-cli compile -b $board --build-property build.extra_flags=\"-D$mode\" ."
     echo $com
     eval $com
 

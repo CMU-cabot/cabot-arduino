@@ -65,16 +65,7 @@ Timer < 10 > timer;
 #define VIB4_PIN (11)  // right
 #endif
 
-#ifndef GIT_HASH
-#define GIT_HASH GIT_HASH_UNKNOWN
-#endif
-#ifndef GIT_DIFF
-#define GIT_DIFF GIT_DIFF_UNKNOWN
-#endif
-
-
-#define STRINGIFY(x) #x
-#define TOSTRING(x) STRINGIFY(x)
+#include "version.h"
 
 #define TOUCH_BASELINE (128)
 #define TOUCH_THRESHOLD_DEFAULT (64)
@@ -105,8 +96,7 @@ void setup()
   ch.init();
 
   ch.loginfo("Connected");
-  ch.loginfo(TOSTRING(GIT_HASH));
-  ch.loginfo(TOSTRING(GIT_DIFF));
+  ch.loginfo(VERSION);
   while (!ch.connected()) {
     ch.spinOnce();
   }
