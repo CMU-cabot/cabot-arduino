@@ -1,0 +1,28 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Matches tags like v1.2.3
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set version.txt
+        run: echo "${{ github.ref_name }}" > version.txt
+
+      - name: Create zip file
+        run: |
+          ./build-release.sh
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: ./*.zip

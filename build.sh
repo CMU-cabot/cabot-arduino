@@ -28,8 +28,9 @@ function help() {
 board=$ARDUINO_BOARD
 port=$ARDUINO_PORT
 mode=$ARDUINO_MODE
+zip=0
 
-while getopts "hb:p:m:" arg; do
+while getopts "hb:p:m:z" arg; do
     case $arg in
 	h)
 	    help
@@ -44,12 +45,18 @@ while getopts "hb:p:m:" arg; do
 	m)
 	    mode=$OPTARG
 	    ;;
+	z)
+	    zip=1
+	    ;;
     esac
 done
 shift $((OPTIND-1))
 
 target=$1
 if [ -z $target ]; then
+    target=build
+fi
+if [[ $zip -eq 1 ]]; then
     target=build
 fi
 
@@ -59,8 +66,16 @@ function build() {
     echo "building..."
 
     com="arduino-cli compile -b $board --build-property build.extra_flags=\"-D$mode\" ."
-    echo $com
-    eval $com
+    if [[ $zip -eq 1 ]]; then
+	echo $com
+	eval $com
+    else
+	sketchname="$(basename `pwd`)-$mode-$(cat version.txt)"
+	com="$com --output-dir /tmp/$sketchname"
+	echo $com
+	eval $com
+	zip -r ${sketchname}.zip /tmp/$sketchname
+    fi
 
     if [ $? -ne 0 ]; then
 	err "Please check board ($board) or mode ($mode)"
