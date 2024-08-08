@@ -37,22 +37,23 @@ VibratorController::VibratorController(
   vib_pin[2] = vib3_pin;
   vib_pin[3] = vib4_pin;
 
-  ch.subscribe(0x20, [](const uint8_t msg) { instance->vibrations[0] = msg+1; });
-  ch.subscribe(0x21, [](const uint8_t msg) { instance->vibrations[1] = msg+1; });
-  ch.subscribe(0x22, [](const uint8_t msg) { instance->vibrations[2] = msg+1; });
-  ch.subscribe(0x23, [](const uint8_t msg) { instance->vibrations[3] = msg+1; });
+  ch.subscribe(0x20, [](const uint8_t msg) {instance->vibrations[0] = msg + 1;});
+  ch.subscribe(0x21, [](const uint8_t msg) {instance->vibrations[1] = msg + 1;});
+  ch.subscribe(0x22, [](const uint8_t msg) {instance->vibrations[2] = msg + 1;});
+  ch.subscribe(0x23, [](const uint8_t msg) {instance->vibrations[3] = msg + 1;});
 }
 
 void VibratorController::init()
 {
-  for(int i = 0; i < 4; i++) {
+  for (int i = 0; i < 4; i++) {
     pinMode(vib_pin[i], OUTPUT);
     analogWrite(vib_pin[i], 0);
   }
 }
 
-void VibratorController::update() {
-  for(int i = 0; i < 4; i++) {
+void VibratorController::update()
+{
+  for (int i = 0; i < 4; i++) {
     if (vibrations[i] > 0) {
       if (vibrations[i] == 1) {
         analogWrite(vib_pin[i], 0);

@@ -194,7 +194,8 @@ void setup()
     touchReader.update();
   });
 
-  timer.every(10, [] () {
+  timer.every(
+    10, [] () {
     imuReader.update();
     vibratorController.update();
   });

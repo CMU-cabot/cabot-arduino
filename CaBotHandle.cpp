@@ -307,7 +307,7 @@ size_t Handle::readCommand(uint8_t * expect, uint8_t ** ptr)
   if (state != 0 || received != 0) {
     static char buff[48];
     snprintf(
-      buff, 48, "%02x %d %d %x %x %d %d %d", received, state,
+      buff, sizeof(buff), "%02x %d %d %x %x %d %d %d", received, state,
       header_count, cmd, *expect, size, size_count, count);
     loginfo(buff);
   }
@@ -346,7 +346,7 @@ size_t Handle::readCommand(uint8_t * expect, uint8_t ** ptr)
     if (size_count == DATA_MAX_SIZE_BYTE) {
       if (size < 0 || sizeof(buffer) < size) {
         state = 0;
-        snprintf(buff, 48, "size is too big cmd=%d, size=%d", cmd, size);
+        snprintf(buff, sizeof(buff), "size is too big cmd=%d, size=%d", cmd, size);
         logwarn(buff);
         return 0;
       } else if (size == 0) {
@@ -371,7 +371,7 @@ size_t Handle::readCommand(uint8_t * expect, uint8_t ** ptr)
       return size;
     } else {
       // if checksum is not matched, assumes there is no data
-      snprintf(buff, 48, "check sum is not matched");
+      snprintf(buff, sizeof(buff), "check sum is not matched");
       logwarn(buff);
       return 0;
     }
